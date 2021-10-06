@@ -4,7 +4,7 @@
 			<div class="dragger"></div>
 			<div class="title">{{ city }}</div>
 		</div>
-		<div class="btn delete"></div>
+		<div class="btn delete" @click="$emit('city-deleted', city)"></div>
 	</div>
 </template>
 

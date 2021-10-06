@@ -10,10 +10,17 @@
 					v-for="city in cities"
 					:city="city"
 					class="city"
+					@city-deleted="removeCity"
 				></settings-city>
 			</div>
 			<div class="footer">
-				<input type="text" class="city-input">
+				<div class="city-input-title">Add Location</div>
+				<input
+					type="text"
+					class="city-input"
+					@keydown.enter="addCity"
+					v-model="inputCity"
+				>
 			</div>
 		</div>
 	</div>
@@ -25,7 +32,20 @@ import SettingsCity from "@/SettingsCity";
 export default {
 	data() {
 		return {
-			cities: ['Moscow', 'New York']
+			cities: ['Moscow', 'New York'],
+			inputCity: null
+		}
+	},
+	methods: {
+		addCity() {
+			this.cities.push(this.inputCity);
+			this.inputCity = null;
+		},
+		removeCity(deletedCity) {
+			console.log('deletedCity', deletedCity);
+			const cityIndex = this.cities.findIndex(city => city === deletedCity);
+			if (cityIndex === -1) return;
+			this.cities.splice(cityIndex, 1);
 		}
 	},
 	name: "WeatherWidget",
@@ -79,13 +99,22 @@ export default {
 		margin: 0;
 	}
 
+	.city-input-title {
+		font-weight: bold;
+		font-size: 14px;
+		margin: 0 0 5px 0;
+	}
+
 	.city-input {
 		outline: none;
+		border: 2px solid #cdcdcd;
 		width: 100%;
+		background: #e7efed;
+		padding: 5px;
 	}
 
 	.city-input:focus {
-		outline: 1px solid #91e6ff;
+		border: 2px solid #88e8ff;
 	}
 </style>
 
