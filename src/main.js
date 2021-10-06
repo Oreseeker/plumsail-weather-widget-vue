@@ -1,8 +1,11 @@
 import Vue from 'vue'
-import App from './App.vue'
+import WeatherWidget from './WeatherWidget.vue'
+import wrap from "@vue/web-component-wrapper";
 
-Vue.config.productionTip = false
+const weatherWidgetCE = wrap(Vue, WeatherWidget);
+
+customElements.define('weather-widget', weatherWidgetCE);
 
 new Vue({
-  render: h => h(App),
+	render: h => h(WeatherWidget),
 }).$mount('#app')
