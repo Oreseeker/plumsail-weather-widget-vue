@@ -26,11 +26,11 @@
 				<div class="wind-pressure">
 					<div class="wind">
 						<div class="icon wind-icon"></div>
-						<div class="value wind-value"></div>
+						<div class="value wind-value">{{ windSpeed }}m/s {{ windDirection }}</div>
 					</div>
 					<div class="pressure">
 						<div class="icon pressure-icon"></div>
-						<div class="value pressure-value"></div>
+						<div class="value pressure-value">{{ pressure }}hPa</div>
 					</div>
 				</div>
 			</div>
@@ -80,6 +80,44 @@ export default {
 			if (!this.weather) return '';
 			const cloudsState = this.weather.weather[0].description;
 			return this.capitalizeFirstLetter(cloudsState);
+		},
+		pressure() {
+			return this.weather ? this.weather.main.pressure : null;
+		},
+		windSpeed() {
+			return this.weather ? this.weather.wind.speed : null;
+		},
+		windDirection() {
+			if (!this.weather) return '';
+			const windDirectionValue = this.weather.wind.deg;
+			const map = [
+				[ [ 0, 11.25 ], 'N' ],
+				[ [ 11.25, 33.75 ], 'NNE' ],
+				[ [ 33.75, 56.25 ], 'NE'  ],
+				[ [ 56.25, 78.75 ], 'N' ],
+				[ [ 56.25, 78.75 ], 'ENE' ],
+				[ [ 78.75, 101.25 ], 'E' ],
+				[ [ 101.25, 123.75 ], 'ESE' ],
+				[ [ 123.75, 146.25 ], 'SE' ],
+				[ [ 146.25, 168.75 ], 'SSE' ],
+				[ [ 168.75, 191.25 ], 'S' ],
+				[ [ 191.25, 213.75 ], 'SSW' ],
+				[ [ 213.75, 236.25 ], 'SW' ],
+				[ [ 236.25, 258.75 ], 'WSW' ],
+				[ [ 258.75, 281.25 ], 'W' ],
+				[ [ 281.25, 303.75 ], 'WNW' ],
+				[ [ 303.75, 326.25 ], 'NW' ],
+				[ [ 326.25, 326.25 ], 'NNW' ],
+				[ [ 326.25, 360.00 ], 'N' ]
+			];
+			const [ direction ] = map.filter(item => {
+				const range = item[0];
+				const lowerEdge = range[0];
+				const upperEdge = range[1];
+				const isInRange = windDirectionValue >= lowerEdge && windDirectionValue < upperEdge;
+				return isInRange;
+			}).map(item => item[1]);
+			return direction;
 		}
 	},
 	methods: {
@@ -165,6 +203,7 @@ export default {
 	.weather-detailed {
 		display: flex;
 		flex-wrap: wrap;
+		margin: 0 0 5px 0;
 	}
 
 	.weather-detailed .grade,
@@ -174,6 +213,8 @@ export default {
 
 	.wind-pressure {
 		display: flex;
+		justify-content: center;
+		column-gap: 15px;
 	}
 
 	.wind, .pressure {
