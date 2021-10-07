@@ -24,13 +24,18 @@ export default {
 			togglers: {
 				showSettings: false
 			},
-			cities: ['Moscow', 'New York']
+			cities: []
 		}
 	},
 	methods: {
 		updateCities(cities) {
 			this.cities = cities;
+			const citiesString = JSON.stringify(cities);
+			localStorage.setItem('cities', citiesString);
 		}
+	},
+	mounted() {
+		this.cities = localStorage.cities ? JSON.parse(localStorage.cities) : ['Moscow'];
 	},
 	name: "WeatherWidget",
 	components: {
