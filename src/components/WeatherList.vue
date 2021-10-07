@@ -12,11 +12,6 @@ import CityWeather from "@/CityWeather";
 
 export default {
 	props: ['cities'],
-	data() {
-		return {
-
-		}
-	},
 	name: "WeatherList",
 	components: {
 		CityWeather
@@ -27,7 +22,6 @@ export default {
 <style scoped>
 	.weather-list {
 		padding: 10px;
-		box-shadow: 0 0 10px 1px gray;
 	}
 
 	.header {

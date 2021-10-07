@@ -46,6 +46,7 @@
 import axios from 'axios';
 
 export default {
+	props: ['city'],
 	data() {
 		return {
 			APIKey: 'edce8b7ea7a84fd4615c745fc28f8eaa',
@@ -155,16 +156,22 @@ export default {
 			return firstLetterCapitalized + text.slice(1);
 		}
 	},
-	async mounted() {
-		const res = await this.getWeather('Moscow');
-		this.weather = res.data;
-		console.log('this.weather', this.weather);
+	watch: {
+		city:{
+			async handler(value) {
+				console.log('watcher');
+				const res = await this.getWeather(value);
+				this.weather = res.data;
+				console.log('this.weather', this.weather)
+			},
+			immediate: true
+		}
 	},
 	name: 'CityWeather'
 }
 </script>
 
-<style>
+<style scoped>
 	.weather-widget {
 		width: 100%;
 	}
@@ -187,7 +194,6 @@ export default {
 		display: flex;
 		align-items: center;
 		align-self: center;
-		column-gap: 15px;
 		color: black;
 	}
 

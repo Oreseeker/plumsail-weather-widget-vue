@@ -32,7 +32,7 @@ export default {
 	.title {
 		font-size: 14px;
 		font-weight: bold;
-		color: gray;
+		color: #454545;
 		flex-grow: 1;
 	}
 

@@ -43,13 +43,14 @@ export default {
 <style scoped>
 	.weather-widget {
 		width: 260px;
+		box-shadow: 0 0 10px 1px gray;
 	}
 </style>
 
 <style>
 	* {
 		box-sizing: border-box;
-		font-family: Arial, sans-serif;
+		font-family: Trebuchet MS, sans-serif;
 	}
 
 	.btn {

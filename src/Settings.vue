@@ -64,7 +64,7 @@ export default {
 		width: 100%;
 		padding: 10px;
 		height: max-content;
-		background: #e7efed;
+		background: white;
 	}
 
 	.header {
@@ -119,7 +119,7 @@ export default {
 		outline: none;
 		border: 2px solid #cdcdcd;
 		width: 100%;
-		background: #e7efed;
+		background: white;
 		padding: 5px;
 		margin: 0 5px 0 0;
 	}
