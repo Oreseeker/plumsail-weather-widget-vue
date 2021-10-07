@@ -3,12 +3,35 @@
 		<div class="selected-location-info">
 			<div class="header">
 				<div class="title">{{ locality }}, {{ country }}</div>
-				<div class="settings"></div>
 			</div>
 			<div class="main">
 				<div class="weather-brief">
 					<img :src="imgURL" class="weather-image">
-					<div class="temperature">{{ roundedTemperatureCelsius }} &#8451;</div>
+					<div class="temperature">
+						<div class="value">{{ roundedTemperatureCelsius }}</div>
+						<div class="units">
+							<div class="grade">o</div>
+							C
+						</div>
+					</div>
+				</div>
+				<div class="weather-detailed">
+					Feels like {{ feelsLikeTemperatureCelsius }}
+					<div class="units">
+						<div class="grade">o</div>
+						C.
+					</div>
+					{{ cloudsState }}.
+				</div>
+				<div class="wind-pressure">
+					<div class="wind">
+						<div class="icon wind-icon"></div>
+						<div class="value wind-value"></div>
+					</div>
+					<div class="pressure">
+						<div class="icon pressure-icon"></div>
+						<div class="value pressure-value"></div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -50,7 +73,13 @@ export default {
 		feelsLikeTemperatureCelsius() {
 			if (!this.weather) return null;
 			const feelsLikeTemperatureKelvin = this.weather.main.feels_like;
-			return this.kelvinToCelsius(feelsLikeTemperatureKelvin);
+			const feelsLikeTemperatureCelsius = this.kelvinToCelsius(feelsLikeTemperatureKelvin);
+			return Math.round(feelsLikeTemperatureCelsius);
+		},
+		cloudsState() {
+			if (!this.weather) return '';
+			const cloudsState = this.weather.weather[0].description;
+			return this.capitalizeFirstLetter(cloudsState);
 		}
 	},
 	methods: {
@@ -65,7 +94,11 @@ export default {
 			return axios.get(url, config);
 		},
 		kelvinToCelsius(temperatureInKelvin) {
-			return temperatureInCelsius - 273.15;
+			return temperatureInKelvin - 273.15;
+		},
+		capitalizeFirstLetter(text) {
+			const firstLetterCapitalized = text[0].toUpperCase();
+			return firstLetterCapitalized + text.slice(1);
 		}
 	},
 	async mounted() {
@@ -81,7 +114,6 @@ export default {
 
 <style>
 	.weather-widget {
-		border: 1px solid gray;
 		width: 300px;
 		font-family: Avenir, sans-serif;
 	}
@@ -94,18 +126,6 @@ export default {
 		font-weight: bold;
 	}
 
-	.settings {
-		background: url('./assets/gear.png') no-repeat center;
-		background-size: 100%;
-		width: 15px;
-		height: 15px;
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
-		cursor: pointer;
-	}
-
 	.main {
 		display: flex;
 		flex-direction: column;
@@ -115,10 +135,65 @@ export default {
 		display: flex;
 		align-items: center;
 		align-self: center;
+		column-gap: 15px;
 	}
 
 	.weather-image {
 		height: 80px;
 		width: 80px;
+	}
+
+	.temperature {
+		font-weight: bold;
+		display: flex;
+		align-items: center;
+		font-size: 30px;
+	}
+
+	.value {
+		margin: 0 5px 0 0;
+	}
+
+	.units {
+		display: flex;
+	}
+
+	.grade {
+		font-size: 0.5em;
+	}
+
+	.weather-detailed {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.weather-detailed .grade,
+	.weather-detailed .units {
+		display: inline-flex;
+	}
+
+	.wind-pressure {
+		display: flex;
+	}
+
+	.wind, .pressure {
+		display: flex;
+		column-gap: 5px;
+	}
+
+	.icon {
+		width: 15px;
+		height: 15px;
+		background-repeat: no-repeat;
+		background-size: 100%;
+		background-position: center;
+	}
+
+	.wind-icon {
+		background-image: url('./assets/wind-rose.png');
+	}
+
+	.pressure-icon {
+		background-image: url('./assets/barometer.png');
 	}
 </style>

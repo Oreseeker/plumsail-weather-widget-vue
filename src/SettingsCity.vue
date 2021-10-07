@@ -11,7 +11,7 @@
 <script>
 export default {
 	props: ['city'],
-	name: "City"
+	name: "SettingsCity"
 }
 </script>
 
@@ -22,7 +22,7 @@ export default {
 		width: 100%;
 		justify-content: space-between;
 		background-color: #d6d6d6;
-		padding: 10px 5px;
+		padding: 10px;
 	}
 
 	.dragger-title {
