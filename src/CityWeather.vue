@@ -33,6 +33,10 @@
 						<div class="value pressure-value">{{ pressure }}hPa</div>
 					</div>
 				</div>
+				<div class="humidity-visibility">
+					<div class="humidity">Humidity: {{ humidity }}%</div>
+					<div class="visibility">Visibility: {{ visibility }}km</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -118,6 +122,18 @@ export default {
 				return isInRange;
 			}).map(item => item[1]);
 			return direction;
+		},
+		humidity() {
+			if (!this.weather) return '';
+			return this.weather.main.humidity;
+		},
+		visibility() {
+			if (!this.weather) return null;
+			const visibilityMeters = this.weather.visibility;
+			const visibilityKilometers = visibilityMeters / 1000;
+
+			/* Округление видимости в километрах осуществляется вниз с точностью до десятой доли */
+			return Math.floor(visibilityKilometers * 10) / 10;
 		}
 	},
 	methods: {
@@ -144,29 +160,27 @@ export default {
 		this.weather = res.data;
 		console.log('this.weather', this.weather);
 	},
-	name: 'App',
-	components: {
-	}
+	name: 'CityWeather'
 }
 </script>
 
 <style>
 	.weather-widget {
-		width: 300px;
-		font-family: Avenir, sans-serif;
+		width: 100%;
 	}
 
-	.selected-location-info .header {
+	.header {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 10px;
 		font-weight: bold;
 	}
 
 	.main {
 		display: flex;
 		flex-direction: column;
+		row-gap: 20px;
+		color: #414141;
 	}
 
 	.weather-brief {
@@ -174,6 +188,7 @@ export default {
 		align-items: center;
 		align-self: center;
 		column-gap: 15px;
+		color: black;
 	}
 
 	.weather-image {
@@ -203,7 +218,6 @@ export default {
 	.weather-detailed {
 		display: flex;
 		flex-wrap: wrap;
-		margin: 0 0 5px 0;
 	}
 
 	.weather-detailed .grade,
@@ -213,8 +227,7 @@ export default {
 
 	.wind-pressure {
 		display: flex;
-		justify-content: center;
-		column-gap: 15px;
+		justify-content: space-between;
 	}
 
 	.wind, .pressure {
@@ -223,8 +236,8 @@ export default {
 	}
 
 	.icon {
-		width: 15px;
-		height: 15px;
+		width: 18px;
+		height: 18px;
 		background-repeat: no-repeat;
 		background-size: 100%;
 		background-position: center;
@@ -236,5 +249,10 @@ export default {
 
 	.pressure-icon {
 		background-image: url('./assets/barometer.png');
+	}
+
+	.humidity-visibility {
+		display: flex;
+		justify-content: space-between;
 	}
 </style>

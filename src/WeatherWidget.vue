@@ -42,14 +42,14 @@ export default {
 
 <style scoped>
 	.weather-widget {
-		width: 350px;
+		width: 260px;
 	}
 </style>
 
 <style>
 	* {
 		box-sizing: border-box;
-		font-family: Avenir, sans-serif;
+		font-family: Arial, sans-serif;
 	}
 
 	.btn {

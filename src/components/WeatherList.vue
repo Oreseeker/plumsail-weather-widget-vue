@@ -27,6 +27,7 @@ export default {
 <style scoped>
 	.weather-list {
 		padding: 10px;
+		box-shadow: 0 0 10px 1px gray;
 	}
 
 	.header {
@@ -47,7 +48,7 @@ export default {
 	}
 
 	.city-weather {
-		margin: 0 0 10px 0;
+		margin: 0 0 60px 0;
 	}
 
 	.city-weather:last-child {
