@@ -138,14 +138,19 @@ export default {
 		}
 	},
 	methods: {
-		getWeather(city) {
+		getWeather({ city, latitude, longitude }) {
 			const url = 'https://api.openweathermap.org/data/2.5/weather';
 			const config = {
 				params: {
-					q: city,
 					appid: this.APIKey
 				}
 			};
+			if (city) {
+				config.params.q = city;
+			} else {
+				config.params.lat = latitude;
+				config.params.lon = longitude;
+			}
 			return axios.get(url, config);
 		},
 		kelvinToCelsius(temperatureInKelvin) {
@@ -157,15 +162,24 @@ export default {
 		}
 	},
 	watch: {
-		city:{
+		city: {
 			async handler(value) {
-				console.log('watcher');
-				const res = await this.getWeather(value);
+				if (!value) return;
+				const res = await this.getWeather({ city: value });
 				this.weather = res.data;
 				console.log('this.weather', this.weather)
 			},
 			immediate: true
-		}
+		},
+		// coordinates: {
+		// 	async handler(value) {
+		// 		if (!value) return;
+		// 		const res = await this.getWeather(value);
+		// 		this.weather = res.data;
+		// 		console.log('this.weather', this.weather);
+ 		// 	},
+		// 	immediate: true
+		// }
 	},
 	name: 'CityWeather'
 }

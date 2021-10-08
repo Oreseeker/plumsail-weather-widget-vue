@@ -24,18 +24,39 @@ export default {
 			togglers: {
 				showSettings: false
 			},
-			cities: []
+			cities: [],
+			coordinates: null
 		}
 	},
 	methods: {
 		updateCities(cities) {
 			this.cities = cities;
-			const citiesString = JSON.stringify(cities);
-			localStorage.setItem('cities', citiesString);
+
+		},
+		loadConfig() {
+			/* Функция возвращает массив городов, сохраненных в localStorage, если там имеются соответствующие данные.
+			   В противном случае возвращается пустой массив. */
+			const citiesString = localStorage.cities;
+			if (!citiesString) return [];
+			return JSON.parse(citiesString);
 		}
 	},
+	watch: {
+		cities(value) {
+			const citiesString = JSON.stringify(value);
+			localStorage.setItem('cities', citiesString);
+		}	
+	},
 	mounted() {
-		this.cities = localStorage.cities ? JSON.parse(localStorage.cities) : ['Moscow'];
+		const cities = this.loadConfig()
+		// if (!cities.length) {
+		// 	navigator.geolocation.getCurrentPosition(res => {
+		// 		console.log('Got coordinates', res);
+		// 		this.coordinates = res
+		// 	});
+		// 	return;
+		// }
+		this.cities = cities
 	},
 	name: "WeatherWidget",
 	components: {

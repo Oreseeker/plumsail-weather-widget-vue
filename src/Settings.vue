@@ -5,12 +5,19 @@
 			<div class="btn close" @click="$emit('settings-closed')"></div>
 		</div>
 		<div class="main">
-			<settings-city
-				v-for="city in cities"
-				:city="city"
-				class="city"
-				@city-deleted="removeCity"
-			></settings-city>
+			<draggable
+				:list="cities"
+				@start="onDragStart"
+				@end="onDragEnd"
+				handle=".dragger"
+			>
+				<settings-city
+					v-for="city in cities"
+					:city="city"
+					class="city"
+					@city-deleted="removeCity"
+				></settings-city>
+			</draggable>
 		</div>
 		<div class="footer">
 			<div class="add-city-title">Add Location</div>
@@ -29,6 +36,7 @@
 
 <script>
 import SettingsCity from "@/SettingsCity";
+import Draggable from "vuedraggable";
 
 export default {
 	props: ['cities'],
@@ -50,11 +58,18 @@ export default {
 			if (cityIndex === -1) return;
 			cities.splice(cityIndex, 1);
 			this.$emit('cities-updated', cities);
+		},
+		onDragStart() {
+			console.log('Drag started');
+		},
+		onDragEnd() {
+			console.log('Drag ended');
 		}
 	},
 	name: "Settings",
 	components: {
-		SettingsCity
+		SettingsCity,
+		Draggable
 	}
 }
 </script>
