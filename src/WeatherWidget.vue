@@ -48,7 +48,7 @@ export default {
 			localStorage.setItem('cities', citiesString);
 		}	
 	},
-	async mounted() {
+	async created() {
 		const cities = this.loadConfig()
 		if (!cities.length) {
 			const options = {
@@ -57,7 +57,6 @@ export default {
 				}
 			};
 			const res = await axios.get('http://ip-api.com/json/', options);
-			console.log('res.data', res.data);
 			const city = this.capitalizeFirstLetter(res.data.city);
 			this.cities = [ city ];
 			return;
