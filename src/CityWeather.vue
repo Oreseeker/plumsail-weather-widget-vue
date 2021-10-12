@@ -1,6 +1,6 @@
 <template>
-	<div class="weather-widget">
-		<div class="selected-location-info">
+	<div class="city-weather">
+		<div class="selected-location-info" v-show="!togglers.showLoader">
 			<div class="header">
 				<div class="title">{{ locality }}, {{ country }}</div>
 			</div>
@@ -39,17 +39,22 @@
 				</div>
 			</div>
 		</div>
+		<spinner v-show="togglers.showLoader"></spinner>
 	</div>
 </template>
 
 <script>
 import axios from 'axios';
 import textOperationsMixin from "@/mixins/text_operations_mixin";
+import Spinner from "@/Spinner";
 
 export default {
 	props: ['city'],
 	data() {
 		return {
+			togglers: {
+				showLoader: true
+			},
 			APIKey: 'edce8b7ea7a84fd4615c745fc28f8eaa',
 			weather: null
 		}
@@ -164,18 +169,26 @@ export default {
 				if (!value) return;
 				const res = await this.getWeather({ city: value });
 				this.weather = res.data;
+				this.$nextTick(() => this.togglers.showLoader = false);
 				console.log('this.weather', this.weather)
 			},
 			immediate: true
 		}
 	},
 	mixins: [ textOperationsMixin ],
-	name: 'CityWeather'
+	name: 'CityWeather',
+	components: {
+		Spinner
+	}
 }
 </script>
 
 <style scoped>
-	.weather-widget {
+	.city-weather {
+		width: 100%;
+	}
+
+	.selected-location-info {
 		width: 100%;
 	}
 
@@ -263,5 +276,12 @@ export default {
 	.humidity-visibility {
 		display: flex;
 		justify-content: space-between;
+	}
+
+	.city-weather {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
 	}
 </style>

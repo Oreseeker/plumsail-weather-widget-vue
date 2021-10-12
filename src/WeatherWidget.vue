@@ -1,16 +1,19 @@
 <template>
 	<div class="weather-widget">
-		<settings
-			v-show="togglers.showSettings"
-			:cities="cities"
-			@cities-updated="updateCities"
-			@settings-closed="togglers.showSettings = false"
-		></settings>
-		<weather-list
-			v-show="!togglers.showSettings"
-			:cities="cities"
-			@settings-opened="togglers.showSettings = true"
-		></weather-list>
+		<div class="sections">
+			<settings
+				v-show="togglers.showSettings"
+				:cities="cities"
+				@cities-updated="updateCities"
+				@settings-closed="togglers.showSettings = false"
+			></settings>
+			<weather-list
+				v-show="!togglers.showSettings"
+				:cities="cities"
+				@settings-opened="togglers.showSettings = true"
+				:list-of-cities-loaded="!togglers.showLoader"
+			></weather-list>
+		</div>
 	</div>
 </template>
 
@@ -24,7 +27,8 @@ export default {
 	data() {
 		return {
 			togglers: {
-				showSettings: false
+				showSettings: false,
+				showLoader: true
 			},
 			cities: []
 		}
@@ -59,9 +63,11 @@ export default {
 			const res = await axios.get('http://ip-api.com/json/', options);
 			const city = this.capitalizeFirstLetter(res.data.city);
 			this.cities = [ city ];
+			this.$nextTick(() => this.togglers.showLoader = false);
 			return;
 		}
 		this.cities = cities;
+		this.$nextTick(() => this.togglers.showLoader = false);
 	},
 	mixins: [ textOperationsMixin ],
 	name: "WeatherWidget",
@@ -76,6 +82,15 @@ export default {
 	.weather-widget {
 		width: 260px;
 		box-shadow: 0 0 10px 1px gray;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-height: 40px;
+		position: relative;
+	}
+
+	.sections {
+		width: 100%;
 	}
 </style>
 

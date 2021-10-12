@@ -3,18 +3,21 @@
 		<div class="header">
 			<div class="open-settings" @click="$emit('settings-opened')"></div>
 		</div>
-		<city-weather v-for="city in cities" :city="city" class="city-weather"></city-weather>
+		<spinner v-show="!listOfCitiesLoaded"></spinner>
+		<city-weather v-for="city in cities" :city="city" v-show="listOfCitiesLoaded"></city-weather>
 	</div>
 </template>
 
 <script>
 import CityWeather from "@/CityWeather";
+import Spinner from "@/Spinner";
 
 export default {
-	props: ['cities'],
+	props: ['cities', 'listOfCitiesLoaded'],
 	name: "WeatherList",
 	components: {
-		CityWeather
+		CityWeather,
+		Spinner
 	}
 }
 </script>
@@ -22,11 +25,15 @@ export default {
 <style scoped>
 	.weather-list {
 		padding: 10px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 
 	.header {
 		display: flex;
 		justify-content: flex-end;
+		width: 100%;
 	}
 
 	.open-settings {
