@@ -4,7 +4,10 @@
 			<div class="open-settings" @click="$emit('settings-opened')"></div>
 		</div>
 		<spinner v-show="!listOfCitiesLoaded"></spinner>
-		<city-weather v-for="city in cities" :city="city" v-show="listOfCitiesLoaded"></city-weather>
+		<div class="no-cities" v-show="!cities.length && listOfCitiesLoaded">
+			Cities list is empty. Click the gear icon to add some.
+		</div>
+		<city-weather v-for="city in cities" :city="city" v-show="cities.length && listOfCitiesLoaded"></city-weather>
 	</div>
 </template>
 
@@ -46,6 +49,11 @@ export default {
 		-ms-user-select: none;
 		user-select: none;
 		cursor: pointer;
+	}
+
+	.no-cities {
+		font-size: 12px;
+		width: 100%;
 	}
 
 	.city-weather {

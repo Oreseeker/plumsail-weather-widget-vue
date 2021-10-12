@@ -9,12 +9,15 @@
 				:list="cities"
 				handle=".dragger"
 			>
-				<settings-city
-					v-for="city in cities"
-					:city="city"
-					class="city"
-					@city-deleted="removeCity"
-				></settings-city>
+				<div class="no-cities" v-show="!cities.length">Cities list is empty</div>
+				<div class="cities" v-show="cities.length">
+					<settings-city
+						v-for="city in cities"
+						:city="city"
+						class="city"
+						@city-deleted="removeCity"
+					></settings-city>
+				</div>
 			</draggable>
 		</div>
 		<div class="footer">
@@ -101,6 +104,10 @@ export default {
 
 	.main {
 		margin: 0 0 25px 0;
+	}
+
+	.no-cities {
+		font-size: 12px;
 	}
 
 	.city {
