@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import CityWeather from "@/CityWeather";
-import Spinner from "@/Spinner";
+import CityWeather from "@/components/weather_list/WeatherListItem";
+import Spinner from "@/components/loaders/Spinner";
 
 export default {
 	props: ['cities', 'listOfCitiesLoaded'],
@@ -37,7 +37,7 @@ export default {
 	}
 
 	.open-settings {
-		background: url('../assets/gear.png') no-repeat center;
+		background: url('../../assets/gear.png') no-repeat center;
 		background-size: 100%;
 		width: 15px;
 		height: 15px;

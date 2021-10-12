@@ -46,7 +46,7 @@
 <script>
 import axios from 'axios';
 import textOperationsMixin from "@/mixins/text_operations_mixin";
-import Spinner from "@/Spinner";
+import Spinner from "@/components/loaders/Spinner";
 
 export default {
 	props: ['city'],
@@ -266,11 +266,11 @@ export default {
 	}
 
 	.wind-icon {
-		background-image: url('./assets/wind-rose.png');
+		background-image: url('../../assets/wind-rose.png');
 	}
 
 	.pressure-icon {
-		background-image: url('./assets/barometer.png');
+		background-image: url('../../assets/barometer.png');
 	}
 
 	.humidity-visibility {

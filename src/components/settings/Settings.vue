@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import SettingsCity from "@/SettingsCity";
+import SettingsCity from "@/components/settings/SettingsCity";
 import Draggable from "vuedraggable";
 
 export default {
@@ -88,7 +88,7 @@ export default {
 	}
 
 	.close {
-		background: url('./assets/close.png') no-repeat center;
+		background: url('../../assets/close.png') no-repeat center;
 		background-size: 100%;
 		width: 12px;
 		height: 12px;
@@ -137,7 +137,7 @@ export default {
 	}
 
 	.city-input-icon {
-		background: url('./assets/enter.png') no-repeat center;
+		background: url('../../assets/enter.png') no-repeat center;
 		background-size: 100%;
 		width: 15px;
 		height: 15px

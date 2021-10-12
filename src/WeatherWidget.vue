@@ -19,8 +19,8 @@
 
 <script>
 import axios from "axios";
-import Settings from "@/Settings";
-import WeatherList from "@/components/WeatherList";
+import Settings from "@/components/settings/Settings";
+import WeatherList from "@/components/weather_list/WeatherList";
 import textOperationsMixin from "@/mixins/text_operations_mixin";
 
 export default {
@@ -53,7 +53,7 @@ export default {
 		}	
 	},
 	async created() {
-		const cities = this.loadConfig()
+		const cities = this.loadConfig();
 		if (!cities.length) {
 			const options = {
 				params: {

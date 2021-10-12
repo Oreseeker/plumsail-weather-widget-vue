@@ -37,7 +37,7 @@ export default {
 	}
 
 	.dragger {
-		background: url('./assets/dragger.png') no-repeat center;
+		background: url('../../assets/dragger.png') no-repeat center;
 		background-size: 100%;
 		width: 15px;
 		height: 15px;
@@ -46,7 +46,7 @@ export default {
 	}
 
 	.delete {
-		background: url('./assets/delete.png') no-repeat center;
+		background: url('../../assets/delete.png') no-repeat center;
 		background-size: 100%;
 		width: 15px;
 		height: 15px;
