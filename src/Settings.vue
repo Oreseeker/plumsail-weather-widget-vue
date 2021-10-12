@@ -7,8 +7,6 @@
 		<div class="main">
 			<draggable
 				:list="cities"
-				@start="onDragStart"
-				@end="onDragEnd"
 				handle=".dragger"
 			>
 				<settings-city
@@ -27,6 +25,7 @@
 					class="city-input"
 					@keydown.enter="addCity"
 					v-model="inputCity"
+					placeholder="Type location and press Enter..."
 				>
 				<div class="city-input-icon"></div>
 			</div>
@@ -58,12 +57,6 @@ export default {
 			if (cityIndex === -1) return;
 			cities.splice(cityIndex, 1);
 			this.$emit('cities-updated', cities);
-		},
-		onDragStart() {
-			console.log('Drag started');
-		},
-		onDragEnd() {
-			console.log('Drag ended');
 		}
 	},
 	name: "Settings",

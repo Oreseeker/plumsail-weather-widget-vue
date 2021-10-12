@@ -44,6 +44,7 @@
 
 <script>
 import axios from 'axios';
+import textOperationsMixin from "@/mixins/text_operations_mixin";
 
 export default {
 	props: ['city'],
@@ -155,10 +156,6 @@ export default {
 		},
 		kelvinToCelsius(temperatureInKelvin) {
 			return temperatureInKelvin - 273.15;
-		},
-		capitalizeFirstLetter(text) {
-			const firstLetterCapitalized = text[0].toUpperCase();
-			return firstLetterCapitalized + text.slice(1);
 		}
 	},
 	watch: {
@@ -170,17 +167,9 @@ export default {
 				console.log('this.weather', this.weather)
 			},
 			immediate: true
-		},
-		// coordinates: {
-		// 	async handler(value) {
-		// 		if (!value) return;
-		// 		const res = await this.getWeather(value);
-		// 		this.weather = res.data;
-		// 		console.log('this.weather', this.weather);
- 		// 	},
-		// 	immediate: true
-		// }
+		}
 	},
+	mixins: [ textOperationsMixin ],
 	name: 'CityWeather'
 }
 </script>

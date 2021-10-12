@@ -15,8 +15,10 @@
 </template>
 
 <script>
+import axios from "axios";
 import Settings from "@/Settings";
 import WeatherList from "@/components/WeatherList";
+import textOperationsMixin from "@/mixins/text_operations_mixin";
 
 export default {
 	data() {
@@ -24,8 +26,7 @@ export default {
 			togglers: {
 				showSettings: false
 			},
-			cities: [],
-			coordinates: null
+			cities: []
 		}
 	},
 	methods: {
@@ -47,17 +48,23 @@ export default {
 			localStorage.setItem('cities', citiesString);
 		}	
 	},
-	mounted() {
+	async mounted() {
 		const cities = this.loadConfig()
-		// if (!cities.length) {
-		// 	navigator.geolocation.getCurrentPosition(res => {
-		// 		console.log('Got coordinates', res);
-		// 		this.coordinates = res
-		// 	});
-		// 	return;
-		// }
-		this.cities = cities
+		if (!cities.length) {
+			const options = {
+				params: {
+					fields: 'city'
+				}
+			};
+			const res = await axios.get('http://ip-api.com/json/', options);
+			console.log('res.data', res.data);
+			const city = this.capitalizeFirstLetter(res.data.city);
+			this.cities = [ city ];
+			return;
+		}
+		this.cities = cities;
 	},
+	mixins: [ textOperationsMixin ],
 	name: "WeatherWidget",
 	components: {
 		Settings,
