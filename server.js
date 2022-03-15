@@ -6,7 +6,7 @@ const app = express();
 
 const sitePath = path.join(__dirname, 'dist');
 
-app.use(serveStatic(sitePath));
+app.use('/', serveStatic(sitePath));
 
 const port = process.env.PORT || 3000;
 app.listen(port);
